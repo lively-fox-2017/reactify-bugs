@@ -7,18 +7,69 @@ import BugForm from './BugForm'
 import BugList from './BugList'
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      bugs: [],
+      anjing() {
+        console.log('kuda')
+      }
+    }
+    this.addData = this.addData.bind(this)
+    this.deleteData = this.deleteData.bind(this)
+    this.closeData = this.closeData.bind(this)
+  }
   render() {
     return (
       <div>
         <div className="container">
           <Header/>
-          <BugForm/>
+          <BugForm addData={this.addData}/>
           <hr/>
-          <BugList/>
+          <BugList bugs={this.state.bugs} deleteData={this.deleteData} closeData={this.closeData}/>
         </div>
         <Footer/>
       </div>
-    );
+    )
+  }
+  fetchBugs() {
+    this.setState(function(state){
+      state.bugs = JSON.parse(localStorage.getItem('bugs')) || []
+    })
+  }
+  addData(data) {
+    this.setState(function(state) {
+      state.bugs.push(data)
+      localStorage.setItem('bugs', JSON.stringify(state.bugs))
+    })
+    this.forceUpdate()
+  }
+  deleteData(id) {
+    var index = this.state.bugs.findIndex(bug => {
+      if(bug.id === id) {
+        return bug
+      }
+    })
+    this.setState(function(state) {
+      state.bugs.splice(index, 1)
+      localStorage.setItem('bugs', JSON.stringify(state.bugs))
+    })
+    this.forceUpdate()
+  }
+  closeData(id) {
+    var index = this.state.bugs.findIndex(bug => {
+      if(bug.id === id) {
+        return bug
+      }
+    })
+    this.setState(function(state) {
+      state.bugs[index].status = 'Close'
+      localStorage.setItem('bugs', JSON.stringify(state.bugs))
+    })
+    this.forceUpdate()
+  }
+  componentWillMount() {
+    this.fetchBugs()
   }
 }
 
