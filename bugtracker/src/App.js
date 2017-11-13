@@ -13,7 +13,7 @@ class BugApp extends React.Component {
   }
 
   componentWillMount() {
-    // this.state.items = [{id: 1, desc: 'halo', severity: 'low', assignedTo: 'Everyone', status: 'Open'}]
+    this.state.items = JSON.parse(localStorage.getItem('bugs'))
   }
 
   render() {
@@ -21,21 +21,49 @@ class BugApp extends React.Component {
       <div>
         <h3>TODO</h3>
         <BugList items={this.state.items} remove={this.handleRemove} close={this.handleClose}/>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            onChange={this.handleChange}
-            value={this.state.desc}
-          />
-          <button>
-            Add #{this.state.items.length + 1}
-          </button>
-        </form>
+        <form action="" id="bugInputForm" onSubmit={this.handleSubmit}>
+            <label className="label">Description</label>
+            <p className="control">
+              <input name ="desc" className="input" type="text" id="description" placeholder="Describe a bug..."
+              onChange={this.handleChange}
+              value={this.state.desc}/>
+            </p>
+            <label className="label">Severity</label>
+            <p className="control">
+              <span className="select">
+                <select id="severity" name="severity"
+                onChange={this.handleChange}
+                value={this.state.severity}>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </span>
+            </p>
+            <label className="label">Assigned To</label>
+            <p className="control">
+              <input name="assignedTo" className="input" type="text" id="assignedTo" placeholder="Enter responsible..."
+              onChange={this.handleChange}
+              value={this.state.assignedTo}/>
+            </p>
+            <div className="control is-grouped">
+              <p className="control">
+                <button className="button is-warning"> Submit #{this.state.items.length + 1}</button>
+              </p>
+            </div>
+          </form>
       </div>
     );
   }
 
   handleChange(e) {
-    this.setState({ desc: e.target.value });
+    const target = e.target;
+    const name = target.name;
+    const value = target.value
+    // this.setState({ desc: e.target.value });
+    this.setState({
+      [name]: value
+    }, () => {console.log(this.state)});
   }
 
   handleSubmit(e) {
@@ -45,13 +73,14 @@ class BugApp extends React.Component {
     }
     const newItem = {
       desc: this.state.desc,
+      assignedTo: this.state.assignedTo,
+      severity: this.state.severity,
       status: 'Open',
       id: Date.now()
     };
-    this.setState(prevState => ({
-      items: prevState.items.concat(newItem),
-      desc: ''
-    }));
+    this.setState({items:this.state.items.concat(newItem)}, () => {
+      localStorage.setItem('bugs', JSON.stringify(this.state.items))
+    })
   }
 
   handleRemove(e) {
@@ -59,15 +88,13 @@ class BugApp extends React.Component {
 		data = data.filter(function (el) {
 			return el !== e;
     });
-    this.setState(prevState => ({
-      items: data,
-      desc: ''
-    }));
+    this.setState({items: data}, () => {
+      localStorage.setItem('bugs', JSON.stringify(data))
+    })
     return;
   }
 
   handleClose(e) {
-    console.log(e)
     var data = this.state.items;    
     for(var i in data) {
       if(data[i] == e) {
@@ -79,22 +106,19 @@ class BugApp extends React.Component {
         break
       }
     }
-    this.setState(prevState => ({
-      items: data,
-      desc: ''
-    }))  
+    this.setState({items: data}, () => {
+      localStorage.setItem('bugs', JSON.stringify(data))
+    })
     return  
   }
 }
 
 class BugList extends React.Component {
   removeNode (e) {
-    console.log('halo')
     this.props.remove(e)
     return;
   }
   closeNode (e) {
-    console.log('close')
     this.props.close(e)
     return;
   }
