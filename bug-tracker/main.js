@@ -26,7 +26,7 @@ let saveBug = (e) => {
 document.getElementById('bugInputForm').addEventListener('submit', saveBug)
 let fetchBugs = () => {
   let bugs = JSON.parse(localStorage.getItem('bugs')) || []
-  let listBugsElement = document.getElementById('listBugs')
+  let listBugsElement = [document.getElementById('listBugs')]
 
   listBugsElement.innerHTML = ''
 
