@@ -1,3 +1,13 @@
+.container {
+  margin-left: 180px;
+  margin-right: 180px;
+}
+
+.columns {
+  margin-left: 90px;
+  margin-right: 90px;
+}
+
 .App {
   text-align: center;
 }

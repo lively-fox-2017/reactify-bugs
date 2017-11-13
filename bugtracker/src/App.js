@@ -1,19 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Container, Title } from 'reactbulma'
+import './App.css'
+import BugForm from './BugForm';
 
 class App extends Component {
+  constructor (props) {
+    super(props)
+    this.handleBugAddition = this.handleBugAddition.bind(this)
+    this.state = {bugs: []}
+  }
+
+  handleBugAddition (element) {
+    this.setState({
+      bugs: this.state.bugs.concat([{
+        description: element.description.value,
+        severity: element.severity.value,
+        user: element.user.value
+      }])
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Container>
+        <Title>
+          Bug Tracker <small>by HACKTIV8</small>
+        </Title>
+        <BugForm handleBugAddition={this.handleBugAddition} />
+      </Container>
     );
   }
 }
