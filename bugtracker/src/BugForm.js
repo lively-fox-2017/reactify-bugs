@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import Chance from 'chance'
+const chance = new Chance()
 
 class BugForm extends Component {
   constructor (props) {
@@ -9,10 +11,15 @@ class BugForm extends Component {
   handleBugAddition (e) {
     e.preventDefault()
     this.props.handleBugAddition({
+      id: chance.guid(),
       description: this.description,
       severity: this.severity,
-      user: this.user
+      user: this.user,
+      status: 'Open'
     })
+    this.description.value = ''
+    this.severity.value = ''
+    this.user.value = ''
   }
 
   render() {
@@ -29,6 +36,7 @@ class BugForm extends Component {
             <p className="control">
               <span className="select">
                 <select id="severity" name="severity" ref={el => this.severity = el}>
+                  <option selected disabled value=''>Select This</option>
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
