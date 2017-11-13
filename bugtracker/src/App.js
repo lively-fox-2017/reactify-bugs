@@ -7,10 +7,10 @@ class App extends Component {
     super()
     this.state={
       name: 'siapa',
+      tampungan: [],
       description: '',
       severity: '',
-      assignedTo: '',
-      tampungan: []
+      assignedTo: ''
     }
   }
 
