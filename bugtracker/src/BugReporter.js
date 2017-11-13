@@ -34,7 +34,7 @@ class BugReporter extends Component {
     this.setState({ description: '' });
     this.setState({ assignedTo: '' });
     this.setState({ severity: 'low' });
-    console.log(localStorage.getItem('bugs'));
+    this.props.updateTask();
   }
 
   descriptionCatcher(event) {
