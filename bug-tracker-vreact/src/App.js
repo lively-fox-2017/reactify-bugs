@@ -1,80 +1,52 @@
 import React, { Component } from 'react';
 import Header from './header.js'
 import Footer from './footer.js'
+import Chance from 'chance'
 import './App.css';
-import 'bulma'
+// import 'bulma'
+
+const chance = new Chance()
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      bugs: JSON.parse(localStorage.getItem('bugs')) || [],
+      bug: {
+        id: chance.guid(),
+        description: '',
+        severity: '',
+        assignedTo: '',
+        status: 'Open'
+      }
+    }
   }
 
-  saveBug (e) {
-    const bug = {
-      id: chance.guid(),
-      description: document.getElementById('description').value,
-      severity: document.getElementById('severity').value,
-      assignedTo: document.getElementById('assignedTo').value,
-      status: 'Open'
-    }
+  handleChange = (e) => {
+    const state = this.state.bug
+    state[e.target.name] = e.target.value
 
-    let bugs = []
+    this.setState(state)
+  }
 
-    if (localStorage.getItem('bugs') !== null) {
-      bugs = JSON.parse(localStorage.getItem('bugs'))
-    }
-
-    bugs.push(bug)
-    localStorage.setItem('bugs', JSON.stringify(bugs))
-
-    document.getElementById('bugInputForm').reset()
-
-    fetchBugs()
-
+  saveBug = (e) => {
     e.preventDefault()
-  }
 
-  document.getElementById('bugInputForm').addEventListener('submit', saveBug)
+    console.log(this.state.bug);
 
-  fetchBugs () {
-    let bugs = JSON.parse(localStorage.getItem('bugs')) || []
-    let listBugsElement = document.getElementById('listBugs')
+    this.state.bugs.push(this.state.bug)
 
-    listBugsElement.innerHTML = ''
+    localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
 
-    for(let i = 0; i < bugs.length; i++) {
-      let id = bugs[i].id
-      let desc = bugs[i].description
-      let severity = bugs[i].severity
-      let assignedTo = bugs[i].assignedTo
-      let status = bugs[i].status
+    this.setState(this.state.bug.description = '')
+    this.setState(this.state.bug.severity = '')
+    this.setState(this.state.bug.assignedTo = '')
 
-      listBugsElement.innerHTML += `<div class="card">
-        <header class="card-header">
-          <p class="card-header-title">
-          BugId: ${id}
-          </p>
-        </header>
-        <div class="card-content">
-          <div class="content">
-            ${desc}
-            <span class="tag is-info">${severity}</span>
-            <p>Assigned To: ${assignedTo}</p>
-          </div>
-          <br>
-          <small class="tag is-primary">${status}</small>
-        </div>
-        <footer class="card-footer">
-          <a onclick="setStatusClosed('${id}')" class="is-warning card-footer-item">Close</a>
-          <a class="card-footer-item" onclick="deleteBug('${id}')">Delete</a>
-        </footer>
-      </div>
-        <br>`
-    }
+    alert("Berhasil Tambah")
   }
 
   render () {
+    const { description, severity, assignedTo } = this.state.bug
     return (
       <div className="App">
         <Header />
@@ -87,12 +59,13 @@ class App extends Component {
               <form id="bugInputForm" onSubmit={this.saveBug}>
                 <label className="label" for="">Description</label>
                 <p className="control">
-                  <input className="input" type="text" id="description" placeholder="Describe a bug..." />
+                  <input className="description" name="description" type="text" id="description" placeholder="Describe a bug..." value={description} onChange={this.handleChange} />
                 </p>
                 <label className="label" for="">Severity</label>
                 <p className="control">
                   <span className="select">
-                    <select id="severity" name="severity">
+                    <select id="severity" name="severity" value={severity} onChange={this.handleChange}>
+                      <option value="">Please Select Severity</option>
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
@@ -101,7 +74,7 @@ class App extends Component {
                 </p>
                 <label className="label" for="">Assigned To</label>
                 <p className="control">
-                  <input className="input" type="text" id="assignedTo" placeholder="Enter responsible..." />
+                  <input className="assignedTo" name="assignedTo" type="text" id="assignedTo" placeholder="Enter responsible..." value={assignedTo} onChange={this.handleChange} />
                 </p>
                 <div className="control is-grouped">
                   <p className="control">
