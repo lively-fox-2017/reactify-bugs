@@ -18,6 +18,7 @@ class App extends Component {
     this.addData = this.addData.bind(this)
     this.deleteData = this.deleteData.bind(this)
     this.closeData = this.closeData.bind(this)
+    this.openData = this.openData.bind(this)
   }
   render() {
     return (
@@ -26,7 +27,7 @@ class App extends Component {
           <Header/>
           <BugForm addData={this.addData}/>
           <hr/>
-          <BugList bugs={this.state.bugs} deleteData={this.deleteData} closeData={this.closeData}/>
+          <BugList bugs={this.state.bugs} deleteData={this.deleteData} closeData={this.closeData} openData={this.openData} />
         </div>
         <Footer/>
       </div>
@@ -64,6 +65,18 @@ class App extends Component {
     })
     this.setState(function(state) {
       state.bugs[index].status = 'Close'
+      localStorage.setItem('bugs', JSON.stringify(state.bugs))
+    })
+    this.forceUpdate()
+  }
+  openData(id) {
+    var index = this.state.bugs.findIndex(bug => {
+      if(bug.id === id) {
+        return bug
+      }
+    })
+    this.setState(function(state) {
+      state.bugs[index].status = 'Open'
       localStorage.setItem('bugs', JSON.stringify(state.bugs))
     })
     this.forceUpdate()

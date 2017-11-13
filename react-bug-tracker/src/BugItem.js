@@ -7,6 +7,9 @@ const BugItem = (props) => {
   var closeData = (id) => {
     props.closeData(id)
   }
+  var openData = (id) => {
+    props.openData(id)
+  }
   return (
     <div>
       <div className="card">
@@ -25,7 +28,8 @@ const BugItem = (props) => {
           <small className="tag is-primary">{props.status}</small>
         </div>
         <footer className="card-footer">
-          <a className="is-warning card-footer-item" onClick={()=>{closeData(props.id)}}>Close</a>
+          {props.status === 'Open' && <a className="is-warning card-footer-item" onClick={()=>{closeData(props.id)}}>Close</a>}
+          {props.status === 'Close' && <a className="is-warning card-footer-item" onClick={()=>{openData(props.id)}}>Open</a>}
           <a className="card-footer-item" onClick={()=>{deleteData(props.id)}}>Delete</a>
         </footer>
       </div>
