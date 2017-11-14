@@ -6,7 +6,7 @@ class CardBug extends React.Component {
     }
     render () {
         return(
-            <div className="mdl-cell--4-col">
+            <div className="mdl-cell--3-col mdl-cell--4-offset">
                 {/* <p>{this.props.indexnya}</p> */}
                 <div className="demo-card-square mdl-card mdl-shadow--2dp">
                     <div className="mdl-card__title mdl-card--expand">

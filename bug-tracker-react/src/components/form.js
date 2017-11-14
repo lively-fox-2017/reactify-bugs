@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { SelectField, Option } from 'react-mdl-selectfield';
 
 class Form extends Component {
     constructor(props) {
@@ -26,18 +27,18 @@ class Form extends Component {
                     </div><br/>
 
                     <div className="mdl-select mdl-js-select mdl-select--floating-label">
+                        <label className="mdl-select__label" htmlFor="Severity">Severity: </label>
                         <select 
                         value={this.state.sev}
                         onChange={this.onChange.bind(this)}
                         name="sev"  
-                        className="mdl-select__input" 
+                        className="mdl-selectfield__select" 
                         id="Severity" 
                         required>
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                         </select>
-                        <label className="mdl-select__label" htmlFor="Severity">Severity</label>
                     </div>
 
                     <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -74,6 +75,11 @@ class Form extends Component {
     dataForm (e) {
         e.preventDefault()
         this.props.receiveData(this.state)
+        this.setState({
+            desc: null,
+            sev: 'low',
+            pic: null
+        })
     }
 }
 

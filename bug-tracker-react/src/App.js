@@ -35,21 +35,25 @@ class App extends Component {
     )
   }
 
-  ComponentWillMount () {
+  componentWillMount () {
     if (localStorage.allBugs) {
-      this.setState({
-        allBugs: JSON.parse(localStorage.allBugs)
-      })
+        // alert(JSON.parse(localStorage.allBugs)+ ' INI ALERT')
+        const newAllBugs = JSON.parse(localStorage.allBugs)
+        console.log('newAllBugs ',newAllBugs)
+
+        this.setState({
+          allBugs: newAllBugs.allBugs
+        })
     }
   }
 
-  ComponentDid() {
-    if (localStorage.allBugs) {
-      this.setState({
-        allBugs: JSON.parse(localStorage.allBugs)
-      })
-    }
-  }
+  // componentDidMount() {
+  //   if (localStorage.allBugs) {
+  //     this.setState({
+  //       allBugs: JSON.parse(localStorage.getItem('allBugs'))
+  //     })
+  //   }
+  // }
 
   receiveDataParent(val){
     alert(JSON.stringify(val)+ '   dari depan')
@@ -85,7 +89,7 @@ class App extends Component {
     this.setState({
       allBugs: [...allBugs.slice(0, index), ...allBugs.slice(index + 1)]
     }, () => {
-      localStorage.removeItem('allBugs')
+      // localStorage.removeItem('allBugs')
       localStorage.setItem('allBugs', JSON.stringify(this.state))
     })
   }
@@ -95,10 +99,11 @@ class App extends Component {
     // const singleBug = Object.assign({}, this.state.allBugs[index], { status: 'close' });
     const allBugs = this.state.allBugs
     allBugs[index].status = 'close'
+    
     this.setState({
       allBugs: allBugs
     },()=>{
-      localStorage.removeItem('allBugs')
+      // // localStorage.removeItem('allBugs')
       localStorage.setItem('allBugs', JSON.stringify(this.state))
     })
   }
@@ -106,3 +111,4 @@ class App extends Component {
 }
 
 export default App
+
