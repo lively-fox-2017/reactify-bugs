@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 5s linear;
+  height: 50px;
+}
+
+.App-header {
+  background-color: rgb(17, 90, 119);
+  height: 100px;
+  padding: 10px;
+  color: silver;
+  font-family: 'Roboto', sans-serif;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

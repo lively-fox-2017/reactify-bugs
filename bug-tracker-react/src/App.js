@@ -1,0 +1,101 @@
+import React, { Component } from 'react'
+import FormClass from './components/form'
+import CardBug from './components/cardBug'
+import logo from './logo.svg'
+import './App.css'
+// import Chance from 'chance';
+// Load Chance
+var Chance = require('chance');
+// Instantiate Chance so it can be used
+var chance = new Chance();
+
+class App extends Component {
+  constructor(){
+    super()
+    this.state ={
+      allBugs:[]
+    }
+  }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Bug Tracker by HACKTIV8</h1>
+        </header>
+          <div>
+            <FormClass
+              receiveData={this.receiveDataParent.bind(this)}
+            ></FormClass>
+          </div><hr/>
+          <div>
+            {this.cardBugId.call(this)}
+          </div>
+      </div>
+    )
+  }
+
+  ComponentWillMount () {
+    if (localStorage.allBugs) {
+      this.setState({
+        allBugs: JSON.parse(localStorage.allBugs)
+      })
+    }
+  }
+
+  ComponentDid() {
+    if (localStorage.allBugs) {
+      this.setState({
+        allBugs: JSON.parse(localStorage.allBugs)
+      })
+    }
+  }
+
+  receiveDataParent(val){
+    alert(JSON.stringify(val)+ '   dari depan')
+    val.BugId= chance.guid()
+    val.status= 'open'
+    this.setState({
+      allBugs: [...this.state.allBugs, val]
+    },()=>{
+      localStorage.setItem('allBugs', JSON.stringify(this.state))
+      // alert(JSON.stringify(this.state))
+    })
+  }
+
+  cardBugId () {
+    if (this.state.allBugs.length > 0) {
+      return <div>
+        {this.state.allBugs.map((item, index)=>{
+        return <CardBug 
+        onDelete={this.spliceState.bind(this)}
+        onUpdate={this.updateAllBugs.bind(this)}
+        key={item.BugId} 
+        CardBugProps={item} 
+        indexnya={index}></CardBug>
+          // return <CardBug></CardBug>
+        })}
+      </div>
+    }
+  }
+
+  spliceState (index) {
+    const allBugs = this.state.allBugs;
+    this.setState({
+      allBugs: [...allBugs.slice(0, index), ...allBugs.slice(index + 1)]
+    });
+  }
+
+  updateAllBugs (objval, index) {
+    // alert(index)
+    // const singleBug = Object.assign({}, this.state.allBugs[index], { status: 'close' });
+    const allBugs = this.state.allBugs
+    allBugs[index].status = 'close'
+    this.setState({
+      allBugs: allBugs
+    })
+  }
+
+}
+
+export default App
