@@ -6,16 +6,23 @@ class CardBug extends React.Component {
     }
     render () {
         return(
-            <div className="mdl-cell--3-col mdl-cell--4-offset">
-                {/* <p>{this.props.indexnya}</p> */}
+            <div className="mdl-cell--12-col">
                 <div className="demo-card-square mdl-card mdl-shadow--2dp">
-                    <div className="mdl-card__title mdl-card--expand">
-                        <h3>Bug Desc: </h3>
-                        <h2 className="mdl-card__title-text">{this.props.CardBugProps.desc}</h2>
+                    <div className="">
+                        <h3>Bug Id: </h3>
+                        <p className="">{this.props.CardBugProps.BugId}</p>
                     </div>
-                    <div className="mdl-card__supporting-text">
+                    <div className="">
+                        <h3>Bug Desc: </h3>
+                        <p className="">{this.props.CardBugProps.desc}</p>
+                    </div>
+                    <div className="">
                         <h3>Bug Severity: </h3>
-                        <h2 className="mdl-card__title-text">{this.props.CardBugProps.sev}</h2>
+                        <p className="">{this.props.CardBugProps.sev}</p>
+                    </div>
+                    <div className="">
+                        <h3>PIC: </h3>
+                        <p className="">{this.props.CardBugProps.pic}</p>
                     </div>
                     <div className="mdl-card__actions mdl-card--border">
                         <button 

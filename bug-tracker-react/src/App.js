@@ -28,9 +28,7 @@ class App extends Component {
               receiveData={this.receiveDataParent.bind(this)}
             ></FormClass>
           </div><hr/>
-          <div>
             {this.cardBugId.call(this)}
-          </div>
       </div>
     )
   }
@@ -69,15 +67,18 @@ class App extends Component {
 
   cardBugId () {
     if (this.state.allBugs.length > 0) {
-      return <div>
+      return <div className="mdl-grid">
         {this.state.allBugs.map((item, index)=>{
-        return <CardBug 
-        style={{align:'center'}}
-        onDelete={this.spliceState.bind(this)}
-        onUpdate={this.updateAllBugs.bind(this)}
-        key={item.BugId} 
-        CardBugProps={item} 
-        indexnya={index}></CardBug>
+          return <div className="mdl-cell--4-col">
+          <CardBug 
+            style={{align:'center'}}
+            onDelete={this.spliceState.bind(this)}
+            onUpdate={this.updateAllBugs.bind(this)}
+            key={item.BugId} 
+            CardBugProps={item} 
+            indexnya={index}>
+          </CardBug>
+        </div>
           // return <CardBug></CardBug>
         })}
       </div>
@@ -95,7 +96,6 @@ class App extends Component {
   }
 
   updateAllBugs (objval, index) {
-    // alert(index)
     // const singleBug = Object.assign({}, this.state.allBugs[index], { status: 'close' });
     const allBugs = this.state.allBugs
     allBugs[index].status = 'close'
@@ -107,7 +107,6 @@ class App extends Component {
       localStorage.setItem('allBugs', JSON.stringify(this.state))
     })
   }
-
 }
 
 export default App
