@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bulma/css/bulma.css'
 
 class BugApp extends React.Component {
   constructor(props) {
@@ -19,7 +20,11 @@ class BugApp extends React.Component {
   render() {
     return (
       <div>
-        <h3>TODO</h3>
+         <div class="container">
+      <h1 class="title is-1">Bug Tracker <small>by HACKTIV8</small></h1>
+      <section class="hero is-medium">
+        <div class="hero-body">
+          <h2 class="title">Add New Bug Report:</h2>
         <BugList items={this.state.items} remove={this.handleRemove} close={this.handleClose}/>
         <form action="" id="bugInputForm" onSubmit={this.handleSubmit}>
             <label className="label">Description</label>
@@ -52,6 +57,9 @@ class BugApp extends React.Component {
               </p>
             </div>
           </form>
+          </div>
+          </section>
+      </div>
       </div>
     );
   }
