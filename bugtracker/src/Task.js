@@ -36,7 +36,7 @@ class Task extends Component {
             </p>
           </header>
           <div className="card-content">
-            <div className="content">
+            <div className="content">{this.props.desc}
               <span className="tag is-info">{this.props.severity}</span>
               <p>Assigned To: {this.props.assignedTo}</p>
             </div>
