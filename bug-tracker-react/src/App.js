@@ -68,6 +68,7 @@ class App extends Component {
       return <div>
         {this.state.allBugs.map((item, index)=>{
         return <CardBug 
+        style={{align:'center'}}
         onDelete={this.spliceState.bind(this)}
         onUpdate={this.updateAllBugs.bind(this)}
         key={item.BugId} 
@@ -83,7 +84,10 @@ class App extends Component {
     const allBugs = this.state.allBugs;
     this.setState({
       allBugs: [...allBugs.slice(0, index), ...allBugs.slice(index + 1)]
-    });
+    }, () => {
+      localStorage.removeItem('allBugs')
+      localStorage.setItem('allBugs', JSON.stringify(this.state))
+    })
   }
 
   updateAllBugs (objval, index) {
@@ -93,6 +97,9 @@ class App extends Component {
     allBugs[index].status = 'close'
     this.setState({
       allBugs: allBugs
+    },()=>{
+      localStorage.removeItem('allBugs')
+      localStorage.setItem('allBugs', JSON.stringify(this.state))
     })
   }
 
