@@ -28,6 +28,7 @@ class App extends Component {
   }
 
   handleChange (e) {
+    // console.log('------', this.state);
     const state = this.state.bug
     state[e.target.name] = e.target.value
 
@@ -37,20 +38,21 @@ class App extends Component {
   saveBug (e) {
     e.preventDefault()
 
-    console.log(this.state.bug);
+    // console.log(this.state.bug);
 
     this.setState(function(state) {
-      // console.log(state.bugs);
       state.bugs.push(state.bug)
+      // console.log(state.bugs);
+      localStorage.setItem('bugs', JSON.stringify(state.bugs))
     })
-
-    localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
 
     this.setState({
       bug: {
+        id: chance.guid(),
         description : '',
         severity : '',
         assignedTo : '',
+        status: 'Open'
       }
     })
 
@@ -58,26 +60,30 @@ class App extends Component {
   }
 
   handleDelete (id) {
-    let bugs = JSON.parse(localStorage.getItem('bugs'))
+    console.log("ini kepanggil");
 
-    let remainingBugs = bugs.filter((item) => {
-      return item.id !== id
-    })
-    localStorage.setItem('bugs', JSON.stringify(remainingBugs))
-    // window.location.reload()
-  }
-
-  setStatusClosed (id) {
-    let bugs = JSON.parse(localStorage.getItem('bugs'))
-
-    let updatedBugs = bugs.map((item) => {
-      if (item.id === id)
-        item.status = 'Close'
-      return item
+    let index = this.state.bugs.findIndex((bug) => {
+      return bug.id === id
     })
 
-    localStorage.setItem('bugs', JSON.stringify(updatedBugs))
+    this.state.bugs.splice(index, 1)
+
+    localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
+
+    this.forceUpdate()
   }
+
+  // setStatusClosed (id) {
+  //   let bugs = JSON.parse(localStorage.getItem('bugs'))
+  //
+  //   let updatedBugs = bugs.map((item) => {
+  //     if (item.id === id)
+  //       item.status = 'Close'
+  //     return item
+  //   })
+  //
+  //   localStorage.setItem('bugs', JSON.stringify(updatedBugs))
+  // }
 
   render () {
     const { description, severity, assignedTo } = this.state.bug
@@ -120,7 +126,7 @@ class App extends Component {
           <hr />
 
           <div className="columns">
-            <BugList bugs={this.state.bugs} delete={this.handleDelete} status={this.setStatusClosed} />
+            <BugList bugs={this.state.bugs} delete={this.handleDelete}  />
           </div>
         </div>
 
