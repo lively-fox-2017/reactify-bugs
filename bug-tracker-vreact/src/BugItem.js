@@ -6,7 +6,8 @@ function BugItem (props) {
   }
 
   const setStatusClosed = () => {
-    props.status(props.id)
+    // console.log("ini .. ", props);
+    props.close(props.id)
   }
 
   return (
@@ -26,7 +27,9 @@ function BugItem (props) {
         <small className="tag is-primary">{props.status}</small>
       </div>
       <footer className="card-footer">
-        <a onClick={setStatusClosed} className="is-warning card-footer-item">Close</a>
+        { props.status === 'Open' ? <a className="is-warning card-footer-item" onClick={setStatusClosed}>Close</a> :
+          <a className="is-warning card-footer-item" disable>Closed</a>
+        }
         <a className="card-footer-item" onClick={deleteBug}>Delete</a>
       </footer>
       <br />

@@ -23,6 +23,7 @@ class App extends Component {
     }
 
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleStatusClosed = this.handleStatusClosed.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.saveBug = this.saveBug.bind(this)
   }
@@ -60,7 +61,7 @@ class App extends Component {
   }
 
   handleDelete (id) {
-    console.log("ini kepanggil");
+    // console.log("ini kepanggil");
 
     let index = this.state.bugs.findIndex((bug) => {
       return bug.id === id
@@ -73,17 +74,19 @@ class App extends Component {
     this.forceUpdate()
   }
 
-  // setStatusClosed (id) {
-  //   let bugs = JSON.parse(localStorage.getItem('bugs'))
-  //
-  //   let updatedBugs = bugs.map((item) => {
-  //     if (item.id === id)
-  //       item.status = 'Close'
-  //     return item
-  //   })
-  //
-  //   localStorage.setItem('bugs', JSON.stringify(updatedBugs))
-  // }
+  handleStatusClosed (id) {
+    // console.log(this.state.bugs);
+    let index = this.state.bugs.findIndex((bug) => {
+      return bug.id === id
+    })
+
+    this.state.bugs[index].status = 'Close'
+    // console.log(this.state.bugs[index].status);
+
+    localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
+
+    this.forceUpdate()
+  }
 
   render () {
     const { description, severity, assignedTo } = this.state.bug
@@ -99,11 +102,11 @@ class App extends Component {
               <form id="bugInputForm" onSubmit={this.saveBug}>
                 <label className="label" for="">Description</label>
                 <p className="control">
-                  <input className="description" name="description" type="text" id="description" placeholder="Describe a bug..." value={description} onChange={this.handleChange} />
+                  <input className="description" name="description" type="text" id="description" placeholder="Describe a bug..." value={description} onChange={this.handleChange} required/>
                 </p>
                 <label className="label" for="">Severity</label>
                 <span className="select">
-                  <select id="severity" name="severity" value={severity} onChange={this.handleChange}>
+                  <select id="severity" name="severity" value={severity} onChange={this.handleChange} required>
                     <option value="">Please Select Severity</option>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -112,7 +115,7 @@ class App extends Component {
                 </span>
                 <label className="label" for="">Assigned To</label>
                 <p className="control">
-                  <input className="assignedTo" name="assignedTo" type="text" id="assignedTo" placeholder="Enter responsible..." value={assignedTo} onChange={this.handleChange} />
+                  <input className="assignedTo" name="assignedTo" type="text" id="assignedTo" placeholder="Enter responsible..." value={assignedTo} onChange={this.handleChange} required/>
                 </p> <br />
                 <div className="control is-grouped">
                   <p className="control">
@@ -126,7 +129,7 @@ class App extends Component {
           <hr />
 
           <div className="columns">
-            <BugList bugs={this.state.bugs} delete={this.handleDelete}  />
+            <BugList bugs={this.state.bugs} delete={this.handleDelete} close={this.handleStatusClosed} />
           </div>
         </div>
 

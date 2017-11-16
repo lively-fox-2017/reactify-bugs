@@ -4,12 +4,11 @@ import './App.css';
 
 
 function BugList (props) {
-
   return (
     <div className="column is-medium" id="listBugs">
       {props.bugs.map((bugItem, index) => {
         return (
-          <BugItem id={bugItem.id} description={bugItem.description} assignedTo={bugItem.assignedTo} severity={bugItem.severity} status={bugItem.status} index={index} key={index} delete={props.delete} />
+          <BugItem id={bugItem.id} description={bugItem.description} assignedTo={bugItem.assignedTo} severity={bugItem.severity} status={bugItem.status} index={index} key={index} delete={props.delete} close={props.close} />
         )
       })}
     </div>
