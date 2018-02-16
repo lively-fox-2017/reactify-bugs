@@ -13,7 +13,7 @@ class Form extends Component {
     render() {
         return (
             <div className="">
-                <form >
+                <form onSubmit={this.dataForm.bind(this)}>
                     <h3>Add New Bug Report</h3>
                     <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
                         <label htmlFor="input_text" className="mdl-textfield__label">Describe a bug</label>
@@ -23,23 +23,23 @@ class Form extends Component {
                         type="text" 
                         className="mdl-textfield__input" 
                         id="input_text" 
-                        required/>
+                        required="required"/>
                     </div><br/>
 
-                    <div className="mdl-select mdl-js-select mdl-select--floating-label">
+                    <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <label className="mdl-select__label" htmlFor="Severity">Severity: </label>
                         <select 
                         value={this.state.sev}
                         onChange={this.onChange.bind(this)}
                         name="sev"  
-                        className="mdl-selectfield__select" 
+                        className="mdl-textfield__input" 
                         id="Severity" 
-                        required>
+                        required="required">
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                         </select>
-                    </div>
+                    </div><br/>
 
                     <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <label htmlFor="input_PIC" className="mdl-textfield__label">Assign To</label>
@@ -49,13 +49,13 @@ class Form extends Component {
                         type="text" 
                         className="mdl-textfield__input" 
                         id="PIC" 
-                        required/>
+                        required="required"/>
                     </div><br/>
 
                     <button 
-                    onClick={this.dataForm.bind(this)}
+                    // onClick={this.dataForm.bind(this)}
                     className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                        Button
+                        Submit
                     </button>
                 </form>
             </div>
